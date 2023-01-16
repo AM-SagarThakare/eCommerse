@@ -10,8 +10,8 @@ import ProtectedRoutes, {
 // import loginpage from "./components/reactBootstrap/loginpage";
 import { Toaster } from "react-hot-toast";
 import CompanyData from "./components/CompanyData";
-import ResetPassword from "./Opearations/ResetPassword";
-import VerifyMail from "./Opearations/VerifyMail";
+import ResetPassword from "./Seller/ResetPassword";
+import VerifyMail from "./Seller/VerifyMail";
 import ProductList from "./Product/ProductList";
 import AddProductModal from "./Product/AddProductModal";
 import GetSingleProduct from "./Product/GetSingleProduct";

@@ -5,14 +5,16 @@ import getToken from "../HttpService/LocalStorageService";
 import { securePost } from "../HttpService/APIService";
 import DragDropComponent from "../DragAndDrop/DragDropComponent";
 import { useState } from "react";
+import RichTextEditor from "../RichTextEditor/RichTextEditor";
+import parse from 'html-react-parser'
 
 export default function AddProductModal(props) {
   const { register, handleSubmit, reset } = useForm();
   const [dragFiles, setDragFiles] = useState([]);
+  const [value, setValue] = useState('')      // this state for richtext
 
   const formData = new FormData();
   // var images = [];
-  console.log(dragFiles);
 
   const onSubmit = (data) => {
     console.log(data);
@@ -24,7 +26,7 @@ export default function AddProductModal(props) {
 
     // formData.append('images',)
     formData.append("name", data.name);
-    formData.append("description", data.description);
+    formData.append("description",value);
     formData.append("price", data.price);
 
     console.log(getToken("activeToken"));
@@ -39,6 +41,13 @@ export default function AddProductModal(props) {
         console.log(err);
       });
   };
+
+  // console.log(parse(value.props.children));
+
+  // console.log( parse(value)?.props?.children);
+  
+
+  // console.log(value);
 
   return (
     <div>
@@ -59,13 +68,17 @@ export default function AddProductModal(props) {
                 type="text"
                 {...register("name")}
               />
-              <label>Enter Desription</label>
+              <label>Enter Description</label>
 
-              <textarea
+              {/* <textarea
                 placeholder="Enter Product Desription"
                 type="text"
                 {...register("description")}
-              ></textarea>
+              ></textarea> */}
+
+              <RichTextEditor setValue={setValue}/>
+
+              {/* <p>{parse(value)}</p> */}
 
               <label>Price</label>
               <input

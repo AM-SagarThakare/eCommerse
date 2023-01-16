@@ -10,7 +10,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import ChangePassword from "../Opearations/ChangePassword";
+import ChangePassword from "../Seller/ChangePassword";
 
 // < --------------------------------------------------------------------------------------------- >
 
@@ -61,24 +61,22 @@ export default function MyProfile() {
 
       <Navbar className="border bg-secondary "  expand="lg">
         <Container className="container">
-          <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+          <Navbar.Brand href="#home">Online shopping</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto ">
-              <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#link">Link</Nav.Link>
 
-              <NavDropdown title="settings" id="basic-nav-dropdown">
+              {/* <NavDropdown title="settings" id="basic-nav-dropdown">
                 
                 <NavDropdown.Item href="#action/3.2">Another action{" "}</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.3">update password </NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.3">Create user</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.3">Log Out</NavDropdown.Item>
 
-                <NavDropdown.Divider />confirmOrder
+                <NavDropdown.Divider />
 
                 <NavDropdown.Item href="#action/3.4" className="bg-danger"> Log Out{" "}</NavDropdown.Item>
-              </NavDropdown>
+              </NavDropdown> */}
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -108,14 +106,15 @@ export default function MyProfile() {
                   </NavDropdown.Item>
 
                   <NavDropdown.Divider />
-                  <NavDropdown.Item href="#action/3.4" className="bg-danger"> Log Out{" "}</NavDropdown.Item>
+              
+                  <NavDropdown.Item href="#action/3.4" onClick={logOut} className="bg-danger"> Log Out </NavDropdown.Item>
 
 
           </NavDropdown>
           {/* <a href='/'>CompanyData</a> */}
           <Link to="/seller/companyData " style={{backgroundColor:'#a2a2a2'}}> company data </Link>
         </div>
-      </Navbar>confirmOrder
+      </Navbar>
 
       <ChangePassword show={show} setShow={setShow} />
 
@@ -125,7 +124,7 @@ export default function MyProfile() {
       {/* card  */}
       <div className="mainDiv d-flex justify-content-center align-items-center">
         <div
-          className="card mb-3 border border-danger"
+          className="card mb-3 "
           style={{ maxWidth: "500px" }}
         >
           <div className="row g-0 p-2 border rounded">
@@ -182,13 +181,12 @@ export default function MyProfile() {
           </div>
 
           <div className="d-flex buttonDiv justify-content-around">
-            <button
+            {/* <button
               type="button"
               className="btn btn-danger d-flex justify-content-center mt-5"
-              onClick={logOut}
             >
               Logout
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

@@ -10,6 +10,7 @@ import AddProductModal from "./AddProductModal";
 import { secureDelete } from "../HttpService/APIService";
 import logo from "../components/images/onlineShopLogo.png";
 import bgImg from "../components/images/bgImgForList.svg";
+import Swal from "sweetalert2";
 
 var totalPages = [];
 
@@ -26,7 +27,6 @@ export default function ProductList() {
   const navigate = useNavigate();
 
   useEffect(() => {
-
     axios
       .get(
         `https://shop-api.ngminds.com/products?sortBy=${prodPaginationObj.sortBy}&limit=${prodPaginationObj.limit}&page=${prodPaginationObj.pageNo}`,
@@ -44,7 +44,6 @@ export default function ProductList() {
         totalPages = Array(response.data?.totalPages)
           .fill()
           .map((_, index) => index + 1);
-
       })
       .catch((error) => {
         console.log(error);
@@ -57,34 +56,37 @@ export default function ProductList() {
       return (
         <div
           className=" d-flex flex-column  justify-content-between bg-light rounded-3 "
-          style={{padding:'4% 4%', paddingBottom:'4%'}}
+          style={{ padding: "4% 4%", paddingBottom: "4%" }}
           key={index}
         >
           <h6
             className="text-truncate"
-            style={{ textOverflow: "ellipsis", width: "100%", }}
+            style={{ textOverflow: "ellipsis", width: "100%" }}
           >
             {currentProductList[index].name}
           </h6>
 
-          <div className="d-flex flex-column justify-content-center align-items-center  " style={{height:'50%'}}>
+          <div
+            className="d-flex flex-column justify-content-center align-items-center  "
+            style={{ height: "50%" }}
+          >
             <img
               src={currentProductList[index]?.images[0]?.url}
               alt="img problem"
               // height="auto"
               // width="200px"
 
-                  // height="50%"
-                width="50%"
+              // height="50%"
+              width="50%"
             ></img>
-            </div>
+          </div>
 
           <h6>${currentProductList[index].price}</h6>
 
           <p
             className="text-truncate"
             style={{ textOverflow: "ellipsis", width: "100%" }}
-            >
+          >
             {" "}
             {currentProductList[index]?.description}
           </p>
@@ -92,7 +94,12 @@ export default function ProductList() {
           <div className="d-flex justify-content-evenly ">
             <button
               className=" border-0"
-              style={{ color: "white", borderRadius: "4px", padding: "1% 6%",backgroundColor:'#000000' }}
+              style={{
+                color: "white",
+                borderRadius: "4px",
+                padding: "1% 6%",
+                backgroundColor: "#000000",
+              }}
               onClick={() =>
                 navigate(
                   `/seller/product/getProduct?productId=${currentProductList[index]._id}`
@@ -104,35 +111,55 @@ export default function ProductList() {
 
             <button
               className=" border-1"
-              style={{ color: "black", borderRadius: "4px", padding: "1% 6%",backgroundColor:'#ffffff' }}
+              style={{
+                color: "black",
+                borderRadius: "4px",
+                padding: "1% 6%",
+                backgroundColor: "#ffffff",
+              }}
               onClick={() => {
-                secureDelete(`/products/`, element._id).then((response) => {
-                  axios
-                    .get(
-                      `https://shop-api.ngminds.com/products?sortBy=${prodPaginationObj.sortBy}&limit=${prodPaginationObj.limit}`,
-                      {
-                        headers: {
-                          Authorization: `Bearer ${getToken("activeToken")}`,
-                        },
-                      }
-                    )
-                    .then((response) => {
-                      console.log(response);
 
-                      setCurrentProductList(response.data.results);
-                      console.log(response);
+
+                Swal.fire({
+                  title: "Do you want to delete this product?",
+                  showDenyButton: true,
+                  // showCancelButton: true,
+                  confirmButtonText: "Yes, delete",
+                  denyButtonText: `No`,
+                }).then((result) => {
+                  /* Read more about isConfirmed, isDenied below */
+                  if (result.isConfirmed) {
+                    secureDelete(`/products/`, element._id).then((response) => {
+                      axios
+                        .get(
+                          `https://shop-api.ngminds.com/products?sortBy=${prodPaginationObj.sortBy}&limit=${prodPaginationObj.limit}`,
+                          {
+                            headers: {
+                              Authorization: `Bearer ${getToken(
+                                "activeToken"
+                              )}`,
+                            },
+                          }
+                        )
+                        .then((response) => {
+                          console.log(response);
+
+                          setCurrentProductList(response.data.results);
+                          console.log(response);
+                        });
                     });
+
+                    Swal.fire("Deleted", "", "success");
+                  }
                 });
               }}
             >
               delete
             </button>
           </div>
-
         </div>
       );
     });
-
 
   var paginationButtons =
     totalPages &&
@@ -158,7 +185,6 @@ export default function ProductList() {
         </button>
       );
     });
-
 
   return (
     <div>
@@ -193,13 +219,10 @@ export default function ProductList() {
         </Navbar>
       </Container>
 
-
-
-
       {/* =================================================    sort by , limit , page no */}
       <div className="border d-flex align-items-center justify-content-end">
         <div>
-          <p style={{margin:'0'}}>SortBy : </p>
+          <p style={{ margin: "0" }}>SortBy : </p>
 
           <select
             onChange={(e) => {
@@ -208,14 +231,14 @@ export default function ProductList() {
               });
             }}
           >
-            <option value=' ' >default</option>
+            <option value=" ">default</option>
             <option value="name"> Name</option>
             <option value="price"> Price</option>
           </select>
         </div>
 
         <div>
-          <p style={{margin:'0'}}>Enter limit</p>
+          <p style={{ margin: "0" }}>Enter limit</p>
           <input
             placeholder="Enter limit"
             type="number"
@@ -229,7 +252,7 @@ export default function ProductList() {
         </div>
 
         <div>
-          <p style={{margin:'0'}}>Enter Page no</p>
+          <p style={{ margin: "0" }}>Enter Page no</p>
 
           <input
             placeholder="page number"
@@ -268,7 +291,7 @@ export default function ProductList() {
             // columnCount:'3',
             gridGap: "5%",
             boxSizing: "border-box",
-            margin: '2%'
+            margin: "2%",
           }}
         >
           {productList}

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { secureDelete, secureGet } from "../HttpService/APIService";
-import CreateUser from "../Opearations/CreateUser";
+import CreateUser from "../Seller/CreateUser";
 import Select from "react-select";
 import UpdateCompanyInfo from "./UpdateCompanyInfo";
-import UpdateUserInfo from "../Opearations/UpdateUserInfo";
+import UpdateUserInfo from "../Seller/UpdateUserInfo";
 import {GrEdit} from 'react-icons/gr'
 import {IoMdPeople} from 'react-icons/io'
-import EditRole from "../Opearations/EditRole";
+import EditRole from "../Seller/EditRole";
 import {MdDeleteForever} from  'react-icons/md'
 
 export default function CompanyData() {

@@ -19,7 +19,6 @@ export default function UpdateCustomerInfo() {
   const { register, handleSubmit } = useForm();
   const [eventKey, setEventKey] = useState("1");
   const [updateAddress, setUpdateAddress] = useState({});
-  // const [addressId, setAddressId] = useState()
 
   useEffect(() => {
     secureGet("shop/auth/self").then((response) => {
@@ -28,7 +27,7 @@ export default function UpdateCustomerInfo() {
     });
 
     secureGet("/customers/address").then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
       setAddressArr(response.data);
     });
   }, [updatePhoto, updateProfile, eventKey]);

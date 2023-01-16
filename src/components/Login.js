@@ -7,9 +7,9 @@ import logInPhoto from "./images/logInAnimatedPhoto.png";
 import toast from "react-hot-toast";
 import {securePost} from "../HttpService/APIService";
 import { setToken } from "../HttpService/LocalStorageService";
-import ForgetPasswordModal from "../Opearations/ForgetPasswordModal";
+import ForgetPasswordModal from "../Seller/ForgetPasswordModal";
 
-import LoginViaGoogle from "../Opearations/LoginViaGoogle";
+import LoginViaGoogle from "../Seller/LoginViaGoogle";
 
 export default function Login() {
   const navigate = useNavigate();

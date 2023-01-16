@@ -4,6 +4,7 @@ import { secureGet } from "../HttpService/APIService";
 import Carousel from "react-bootstrap/Carousel";
 import UpdateProduct from "./UpdateProduct";
 import UpdatePhotos from "./UpdatePhotos";
+import parse from 'html-react-parser'
 
 export default function GetSingleProduct() {
     const [searchParams,] = useSearchParams();
@@ -71,12 +72,13 @@ export default function GetSingleProduct() {
           className="d-flex flex-column justify-content-between "
           style={{ height: "50%", width: "50%",}}
         >
+          {data && 
           <div className="d-flex flex-column justify-content-between ">
             <h5> {data?.name}</h5>
-            <p style={{fontSize:'12px'}}><b>Desription :</b> {data?.description}</p>
+            <p style={{fontSize:'12px'}}><b>Desription :</b> {parse(data?.description)}</p>
             <h5>$ {data?.price}</h5>
           </div>
-
+          }
           <div className="d-flex justify-content-evenly">
             <button
             className=""

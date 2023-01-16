@@ -6,7 +6,6 @@ import { secureGet } from "../HttpService/APIService";
 import getToken from "../HttpService/LocalStorageService";
 
 import { CgProfile } from "react-icons/cg";
-// import { TfiShoppingCartFull } from "react-icons/tfi";
 import { FaUserTie } from "react-icons/fa";
 import { BsCart3 } from "react-icons/bs";
 
@@ -15,7 +14,6 @@ import { Button, Pagination } from "react-bootstrap";
 
 import { useDispatch, useSelector } from "react-redux"; // disptach action ko trigger krta hai. action ko call karke batat hai ki muze yeh chahiye. fir action reducer k pass chala jayega
 import { addToCart, buyProducts } from "../Redux/Actions/action";
-// import store from "../Redux/store";
 import { toast } from "react-hot-toast";
 import Swal from "sweetalert2";
 import CustomerLoginModal from "../Customer/CustomerLoginModal";
@@ -121,10 +119,8 @@ export default function Shopping() {
             quantity: element.quantity,
             totalPrice: element.total,
             images: element.images,
-          },
+          }
         ];
-        console.log(element);
-        console.log(items);
         createPayload(items);
       } else {
         toast.error("add address first ");
