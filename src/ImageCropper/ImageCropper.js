@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 
-export default function ImageCropper() {
+export default function ImageCropper({ setBlob }) {
   const [src, setFile] = useState(null);
   const [dataUrl, setDataUrl] = useState("");
   //   console.log(src);
@@ -18,15 +18,15 @@ export default function ImageCropper() {
       setDataUrl(fr.result);
     };
 
-    fr.readAsDataURL(event.target.files[0]);
+    fr.readAsDataURL(event.target.files[0]); // The readAsDataURL method is used to read the contents of the specified Blob or File .
   };
 
   const [image, setImage] = useState("");
-  const [crop, setCrop] = useState({ aspect: 1 / 1 });
+  const [crop, setCrop] = useState({ aspect: 16 / 9 });
   const [result, setResult] = useState(null);
 
   const getCroppedImg = useCallback(() => {
-
+    console.log("in useCallBAck");
     const mainImage = document.getElementById("main-image");
 
     const canvas = document.createElement("canvas");
@@ -51,7 +51,10 @@ export default function ImageCropper() {
 
     const base64Image = canvas.toDataURL("images/jpeg");
     setResult(base64Image);
-    
+    canvas.toBlob((blobOfCropImg) => {
+      console.log(blobOfCropImg);
+      setBlob(blobOfCropImg);
+    });
   }, [crop, dataUrl]);
 
   return (
@@ -59,22 +62,26 @@ export default function ImageCropper() {
       <div className="Container border">
         <input type="file" accept="image/*" onChange={handleFileChange} />
       </div>
+
       {src && (
         <div className="border mt-3">
           {
             <ReactCrop
-              crop={crop}
-              onImageLoaded={(x) => {
-                console.log(x);
-                setImage(x);
-                // getCroppedImg(x);
-              }}
+              crop={crop} // You must ensure the crop is in bounds and correct to the aspect ratio if manually setting.
+              // onImageLoaded={(x) => {        // i think there is no property like onImageLoaded
+              //   console.log(x);
+              //   setImage(x);
+              //   // getCroppedImg(x);
+              // }}
+
               onComplete={(e) => {
-                console.log(e);
+                //A callback which happens after a resize, drag, or nudge. Passes the current crop state object.
+                console.log(e); // we get in this event : height unit width x y
                 setCrop(e);
                 getCroppedImg();
               }}
               onChange={(c) => {
+                //A callback which happens for every change of the crop (i.e. many times as you are dragging/resizing). Passes the current crop state object
                 // console.log(c);
                 setCrop(c);
               }}
@@ -88,18 +95,13 @@ export default function ImageCropper() {
               />
             </ReactCrop>
           }
-          <Button
-            className="btn btn-info outline-info"
-            onClick={() => getCroppedImg()}
-          >
-            crop
-          </Button>
+
         </div>
       )}
 
       {result && (
-        <div>
-          <img src={result} alt="cropeed img" />
+        <div className="d-flex justify-content-center" >
+          <img className="border border-dark p-1" src={result} alt="cropeed img" />
         </div>
       )}
     </div>

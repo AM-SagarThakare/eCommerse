@@ -6,7 +6,6 @@ import { securePost } from "../HttpService/APIService";
 import DragDropComponent from "../DragAndDrop/DragDropComponent";
 import { useState } from "react";
 import RichTextEditor from "../RichTextEditor/RichTextEditor";
-import parse from 'html-react-parser'
 
 export default function AddProductModal(props) {
   const { register, handleSubmit, reset } = useForm();

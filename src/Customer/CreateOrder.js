@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { BiRupee } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { securePost, secureGet } from "../HttpService/APIService";
-import { makeCartEmpty } from "../Redux/Actions/action";
+import { makeCartEmpty, buyProducts } from "../Redux/Actions/action";
 
 export default function CreateOrder() {
   const storeData = useSelector((state) => state);
@@ -14,7 +14,12 @@ export default function CreateOrder() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  console.log("storeData : ", storeData);
+  const navigateProps = new useLocation().state;
+  console.log(navigateProps);
+
+  // dispatch(buyProducts(navigateProps.payload))
+
+  // console.log("storeData : ", storeData);
 
   const buyProductsArr =
     storeData.buyProducts.items &&
@@ -58,9 +63,10 @@ export default function CreateOrder() {
 
   useEffect(() => {
     secureGet("/customers/address").then((response) => {
-      // console.log(response)
       setAllAddresses(response.data);
     });
+  dispatch(buyProducts(navigateProps.payload))
+
   }, []);
 
   // get all addresses from api
@@ -132,7 +138,7 @@ export default function CreateOrder() {
 
     securePost("/shop/orders", data).then((response) => {
       console.log(response);
-      
+
       dispatch(makeCartEmpty());
 
       navigate("/confirmOrder", {
@@ -143,8 +149,6 @@ export default function CreateOrder() {
 
   return (
     <div className="d-flex flex-column align-items-center justify-content-center ">
-      <p></p>
-
       <div
         className="border w-50 mt-3 overflow-scroll"
         style={{ height: "85vh" }}

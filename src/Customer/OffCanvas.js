@@ -1,8 +1,6 @@
 // import React from "react";
 
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Button from "react-bootstrap/Button";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { useNavigate } from "react-router-dom";
 import { secureDelete, secureGet } from "../HttpService/APIService";
@@ -11,11 +9,7 @@ import ChangeCustomerPassword from "./ChangeCustomerPassword";
 import { CgLogOut } from "react-icons/cg";
 import { MdSettingsSuggest } from "react-icons/md";
 import {RiUserUnfollowLine, RiLockPasswordLine} from 'react-icons/ri'
-// import {RiUserUnfollowLine} from 'react-icons/'
-// import getToken from "../HttpService/LocalStorageService";
-// import UpdateCustomerInfo from "./UpdateCustomerInfo";
-// import UpdateCustomerProfile from "./UpdateCustomerProfile";
-// import UpdateCustomerProfilePhoto from "./UpdateCustomerProfilePhoto";
+
 
 export default function OffCanvas({ showCanvas, setShowCanvas }) {
   const navigate = useNavigate();
@@ -55,14 +49,14 @@ export default function OffCanvas({ showCanvas, setShowCanvas }) {
           </Offcanvas.Header>
           <Offcanvas.Body>
             <div className="d-flex flex-column justify-content-center align-items-center ">
-              <div className="d-flex justify-content-center rounded-circle overflow-hidden" style={{width:'200px', height:'200px'}} >
+              <div className="d-flex justify-content-center rounded-circle overflow-hidden border border-light p-1"  style={{width:'200px', height:'200px'}} >
                 <img className="w-100 h-100 object-fit-cover"  src={currentLoggedInUser?.picture}></img>
               </div>
               <p>{currentLoggedInUser?.name}</p>
               <p> {currentLoggedInUser?.email}</p>
 
               <div className=" w-100" role='button'>
-                <h5
+                <h6
                   variant="secondary"
                   onClick={() => {
                     setChangePassword(true);
@@ -70,9 +64,9 @@ export default function OffCanvas({ showCanvas, setShowCanvas }) {
                 >
                   <RiLockPasswordLine />{" "}
                   Change password
-                </h5>
-                <h5 variant="danger"><RiUserUnfollowLine /> delete user</h5>
-                <h5
+                </h6>
+                <h6 variant="danger"><RiUserUnfollowLine /> delete user</h6>
+                <h6
                   variant="light"
                   // className="border border-secondary"
                   onClick={() => {
@@ -82,10 +76,10 @@ export default function OffCanvas({ showCanvas, setShowCanvas }) {
                   {" "}
                   <MdSettingsSuggest />{" "}
                   setting
-                </h5>
-                <h5 onClick={() => logOutCustomer()}>
+                </h6>
+                <h6 onClick={() => logOutCustomer()}>
                   <CgLogOut /> log out
-                </h5>
+                </h6>
               </div>
             </div>
           </Offcanvas.Body>

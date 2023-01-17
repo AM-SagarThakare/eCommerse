@@ -45,8 +45,14 @@ export default function CustomerCart() {
     payload.deliveryFee = 0;
     payload.total = amount;
 
+    console.log(payload)
+
     dispatch(buyProducts(payload));
-    navigate("/order");
+    navigate("/order",{
+      state : {
+        payload : payload
+      }
+    });
   };
 
   const currentCartData =
@@ -119,7 +125,7 @@ export default function CustomerCart() {
                     variant="outline-danger"
                     onClick={() => dispatch(deleteFromCart(element._id))}
                   >
-                    delete from cart
+                    Remove
                   </Button>
                 </div>
               </div>

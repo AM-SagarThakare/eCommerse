@@ -5,6 +5,9 @@ import { Accordion, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { AiTwotoneDelete } from "react-icons/ai";
+import { RiImageEditFill } from "react-icons/ri";
+import { TiEdit } from "react-icons/ti";
+import Swal from "sweetalert2";
 
 import { securePost, secureDelete, secureGet } from "../HttpService/APIService";
 import getToken from "../HttpService/LocalStorageService";
@@ -34,16 +37,32 @@ export default function UpdateCustomerInfo() {
 
   // delete profile photo
   function deleteProfilePhoto() {
-    axios
-      .delete("https://shop-api.ngminds.com/customers/profile-picture", {
-        headers: { Authorization: `Bearer ${getToken("activeCustomerToken")}` },
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Deleted!", "Your photo has been deleted.", "success");
+        axios
+          .delete("https://shop-api.ngminds.com/customers/profile-picture", {
+            headers: {
+              Authorization: `Bearer ${getToken("activeCustomerToken")}`,
+            },
+          })
+          .then((response) => {
+            console.log(response);
+            // toast.success("deleted profile photo successfully ");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    });
   }
 
   // add adresss to API
@@ -78,7 +97,6 @@ export default function UpdateCustomerInfo() {
   // remove address from API
   function removeAdd(id) {
     secureDelete(`/customers/address/${id}}`).then((response) => {
-      // console.log(response);
       setAddressArr((prev) => prev.filter((item) => item._id !== id));
     });
   }
@@ -193,55 +211,57 @@ export default function UpdateCustomerInfo() {
       eventKey === "1" ? setEventKey("0") : setEventKey("1"); // eventKey for accordian
     });
   };
-  // console.log(currentLoggedInUser);
 
   return (
     <div className="d-flex">
       {/* customer information */}
       <div
-        className="border border-primary d-flex flex-column align-items-start w-25 vh-100 p-3"
+        className="border border-primary d-flex flex-column gap-4 align-items-start w-25 vh-100 p-3"
         style={{ background: "#FCF9BE" }}
       >
-        <div className=" d-flex border border-danger">
+        <div className=" d-flex w-100 p-1 " style={{ height: "250px" }}>
           <img
+            title="profile photo"
             src={currentLoggedInUser?.picture}
-            className="w-100 h-100 rounded-3"
+            className=" h-100 rounded-3 border border-secondary p-1"
+            style={{ width: "90%" }}
           />
+          <div>
+            <AiTwotoneDelete
+              title="delete profile"
+              style={{ cursor: "pointer" }}
+              size={30}
+              color="red"
+              onClick={() => {
+                deleteProfilePhoto();
+              }}
+            />
 
-          <AiTwotoneDelete size={50} color="" />
+            {/* update profile photo */}
+            <RiImageEditFill
+              title="edit profile"
+              size={30}
+              onClick={() => {
+                setUpdatePhoto(true);
+              }}
+            />
+          </div>
         </div>
-        <p>username : {currentLoggedInUser?.name}</p>
-        <p>mail-id : {currentLoggedInUser?.email}</p>
 
-        <div>
-          {/* update profile photo button */}
-
-          <button
-            onClick={() => {
-              setUpdatePhoto(true);
-            }}
-          >
-            update profile photo
-          </button>
-
-          {/* update profile button */}
-          <button
-            onClick={() => {
-              setUpdateProfile(true);
-            }}
-          >
-            update profile
-          </button>
-
-          {/* delete profile photo button */}
-          <button
-          type="submit"
-            onClick={() => {
-              deleteProfilePhoto();
-            }}
-          >
-            delete profile photo
-          </button>
+        <div className=" d-flex border w-100 border-dark rounded-3 p-2">
+          <div className="w-100">
+            <p>username : {currentLoggedInUser?.name}</p>
+            <p>mail-id : {currentLoggedInUser?.email}</p>
+          </div>
+          <div>
+            <TiEdit
+              title="edit info"
+              size={20}
+              onClick={() => {
+                setUpdateProfile(true);
+              }}
+            />
+          </div>
         </div>
       </div>
 

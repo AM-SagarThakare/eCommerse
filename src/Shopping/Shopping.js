@@ -24,7 +24,6 @@ export default function Shopping() {
   const [searchText, setSearchText] = useState("");
 
   const navigate = useNavigate();
-  // console.log(store.getState().dataAddedToCart.length);
   const [currentLoggedInUser, setCurrentLoggedInUser] = useState();
   const [showCanvas, setShowCanvas] = useState(false);
   const [paginationObj, setPaginationObj] = useState({
@@ -41,9 +40,6 @@ export default function Shopping() {
 
   // ====================== useEffect
   useEffect(() => {
-    // console.log(searchParams.get("user"));
-    // setCurrentLoggedInUser(JSON.parse(searchParams.get("user")));
-
     if (paginationObj.limit !== "" && paginationObj.pageNo !== "")
       paginationObj?.sortBy === ""
         ? secureGet(
@@ -67,7 +63,7 @@ export default function Shopping() {
         console.log(response.data.results);
         setCurrentItems(response.data.results);
       });
-}, [paginationObj]);
+  }, [paginationObj]);
 
   useEffect(() => {
     // secureGet("shop/auth/self").then((response) => {
@@ -99,9 +95,15 @@ export default function Shopping() {
     payload.total = amount;
 
     console.log(payload);
+    // console.log(products);
 
     dispatch(buyProducts(payload));
-    navigate("/order");
+
+    navigate("/order", {
+      state: {
+        payload: payload          
+      }
+    });
   };
 
   function checkUserAddress(element) {
@@ -119,7 +121,7 @@ export default function Shopping() {
             quantity: element.quantity,
             totalPrice: element.total,
             images: element.images,
-          }
+          },
         ];
         createPayload(items);
       } else {
@@ -221,12 +223,8 @@ export default function Shopping() {
       );
     });
 
-  // const myState = useSelector((state) => {
-  //   return state.changeNumber;
-  // });
   const dispatch = useDispatch();
 
-  // const cartArr = useSelector();
   function getLoggedUserData() {
     // secureGet("shop/auth/self").then((response) => {
     //   // console.log(response.data);
@@ -237,7 +235,7 @@ export default function Shopping() {
   // ==================================== return block
   return (
     <div className="d-flex justify-content-center flex-column align-items-center ">
-      {/* {console.log("in shopping return block")} */}
+      
       {/*=================== NavBar  */}
       <div
         className="navbar p-2 px-3  d-flex justify-content-between align-items-center border w-100 text-light"
@@ -246,6 +244,9 @@ export default function Shopping() {
         <h4>online shopping</h4>
 
         <div className="d-flex align-items-center gap-1">
+
+          <span style={{cursor:'pointer'}} onClick={()=>navigate('/seller')}>Become a seller</span>
+
           <div
             role={"button"}
             onClick={() => {
@@ -301,6 +302,7 @@ export default function Shopping() {
             </div>
           )}
         </div>
+
       </div>
 
       {showCanvas ? (
@@ -412,29 +414,56 @@ export default function Shopping() {
       {/* pagination  */}
       <div className="pt-3">
         <Pagination>
-          {/* <Pagination.First /> */}
-          <Pagination.Prev />
+          {/* <Pagination.First
+            onClick={() => {
+              setPaginationObj((...prev) => {
+                return { ...prev, pageNo:Number(1) };
+              });
+            }}
+          /> */}
           {/* <Pagination.Item>{1}</Pagination.Item> */}
-          <Pagination.Ellipsis />
+          {/* <Pagination.Ellipsis /> */}
 
-          {/* <Pagination.Item>{10}</Pagination.Item> */}
+          {/* <Pagination.Item>{10}</Pagination.Item>
           {paginationObj?.pageNo >= 2 ? (
             <Pagination.Item>{paginationObj?.pageNo - 1}</Pagination.Item>
-          ) : (
+            ) : (
+              ""
+            )} */}
+          {paginationObj.pageNo === 1 ? (
             ""
+          ) : (
+            <Pagination.Prev
+              onClick={() => {
+                setPaginationObj((prev) => {
+                  return { ...prev, pageNo: Number(paginationObj.pageNo) - 1 };
+                });
+              }}
+            />
           )}
           <Pagination.Item active>{paginationObj?.pageNo}</Pagination.Item>
+
+          {paginationObj.pageNo === totalPages ? (
+            ""
+          ) : (
+            <Pagination.Next
+              onClick={() => {
+                setPaginationObj((prev) => {
+                  return { ...prev, pageNo: Number(paginationObj.pageNo) + 1 };
+                });
+              }}
+            />
+          )}
           {/* {totalPages === paginationObj.pageNo  ? '': <Pagination.Item>{Number(paginationObj?.pageNo)+1}</Pagination.Item>} */}
-          {totalPages === paginationObj.pageNo ? (
+          {/* {totalPages === paginationObj.pageNo ? (
             <p>::: {totalPages}</p>
           ) : (
             <p>--- {Number(paginationObj.pageNo) + 1}</p>
-          )}
+          )} */}
           {/* <Pagination.Item disabled>{14}</Pagination.Item> */}
 
-          <Pagination.Ellipsis />
+          {/* <Pagination.Ellipsis /> */}
           {/* <Pagination.Item>{20}</Pagination.Item> */}
-          <Pagination.Next />
           {/* <Pagination.Last /> */}
         </Pagination>
       </div>

@@ -14,14 +14,14 @@ export default function UpdateCustomerProfilePhoto({
 }) {
   const { register, handleSubmit } = useForm();
   const [src, setFile] = useState(null);
+  const [blob,setBlob]=useState();
   var images = [];
   const formData = new FormData();
-
+  
   const onSubmit = (data) => {
-    console.log(images);
-    console.log("in data");
-
-    formData.append("picture", images[0]);
+    
+    console.log(blob)
+    formData.append("picture", blob);
     securePost("/customers/profile-picture", formData).then((response) => {
       console.log(response);
 
@@ -38,8 +38,6 @@ export default function UpdateCustomerProfilePhoto({
   };
   const handleFileChange = (e) => {
      setFile(e.target.files[0]);
-    // setFile(URL.createObjectURL(e.target.files[0]));
-    console.log('hiiii');
   };
   const [image, setImage] = useState(null);
 
@@ -51,6 +49,9 @@ export default function UpdateCustomerProfilePhoto({
         show={updatePhoto}
         onExit={() => onExitCall}
         onHide={() => setUpdatePhoto(false)}
+
+        backdrop="static"
+        keyboard={false}
       >
         <Modal.Header closeButton style={{ background: "#FAAB78" }}>
           <Modal.Title>Update profile photo </Modal.Title>
@@ -73,7 +74,7 @@ export default function UpdateCustomerProfilePhoto({
                   //  setFile(event.target.files[0])
                 }}  
               /> */}
-              <ImageCropper />
+              <ImageCropper setBlob={setBlob}/>
               {/* <div>
                 <p>euuuu</p>
                 {
@@ -98,7 +99,7 @@ export default function UpdateCustomerProfilePhoto({
             <Button
               variant="primary"
               type="submit"
-              //   onClick={() => setUpdatePhoto(false)}
+                // onClick={() => setUpdatePhoto(false)}
             >
               Save Changes
             </Button>

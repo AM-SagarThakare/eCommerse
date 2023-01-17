@@ -7,7 +7,7 @@ export default function RichTextEditor({setValue}) {
 
   return (
     <div>
-        <JoditEditor ref={editor} onChange={(event)=>{setValue(event)}}/> 
+        <JoditEditor ref={editor} onChange={(event)=>{console.log(event)}}/> 
     </div>
   )
 }
