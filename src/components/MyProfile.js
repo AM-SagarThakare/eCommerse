@@ -105,6 +105,13 @@ export default function MyProfile() {
                     change password
                   </NavDropdown.Item>
 
+                  <NavDropdown.Item
+                  onClick={()=>{
+                    navigate('/seller/product/orders')
+                  }}
+                  >
+                   orders
+                  </NavDropdown.Item>
                   <NavDropdown.Divider />
               
                   <NavDropdown.Item href="#action/3.4" onClick={logOut} className="bg-danger"> Log Out </NavDropdown.Item>

@@ -24,6 +24,8 @@ import CustomerCart from "./Customer/CustomerCart";
 import CreateOrder from "./Customer/CreateOrder";
 import CustomerConfirmOrder from "./Customer/CustomerConfirmOrder";
 import CustomerOrderHistory from "./Customer/CustomerOrderHistory";
+import Orders from "./Seller/Orders";
+import OrderDetails from "./Seller/OrderDetails";
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState();
@@ -58,6 +60,8 @@ function App() {
               <Route path="list" element={<ProductList />} />
               <Route path="addProduct" element={<AddProductModal />} />
               <Route path="getProduct" element={<GetSingleProduct />} />
+              <Route path="orders" element={<Orders />}/>
+              <Route path="orderDetails" element={<OrderDetails />}/>
             </Route>
           </Route>
 
