@@ -12,8 +12,8 @@
 // import ProductList from "./Product/ProductList";
 // import AddProductModal from "./Product/AddProductModal";
 // import GetSingleProduct from "./Product/GetSingleProduct";
-
-// export default function seller(){
+ 
+// export default function  seller(){
 // return (
 //     <BrowserRouter>
 //       <Routes>
