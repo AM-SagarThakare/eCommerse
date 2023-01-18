@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import {securePost} from "../HttpService/APIService";
 import { setToken } from "../HttpService/LocalStorageService";
 
+
+
 export default function CustomerLoginModal({
   showLoginModal,
   setShowLoginModal,

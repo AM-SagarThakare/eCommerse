@@ -6,6 +6,8 @@ export const incNumber = (product) => {
 };
 
 export const decNumber = (productId) => {
+  console.log(productId);
+   
   return {
     type: "DECREMENT",
     payload: productId,

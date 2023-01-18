@@ -18,7 +18,7 @@ export default function UpdateProduct(props) {
       props.setUpdateProduct(false);
       props.setData(response.data)
     })
-  };
+  };  
 
   return (
     <div>

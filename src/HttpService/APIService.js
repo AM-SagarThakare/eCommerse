@@ -3,7 +3,7 @@ import { axiosInstance } from "../components/Interceptor";
 
 // var baseUrl = "https://ngminds.herokuapp.com";
 // var  baseUrl = "https://shop-api.ngminds.com"
-
+  
 function secureGet(url){
     // const newUrl = baseUrl + url;
     return axiosInstance.get(url);           // pass only httprequest not newurl

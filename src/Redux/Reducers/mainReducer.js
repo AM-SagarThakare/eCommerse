@@ -12,6 +12,8 @@ const rootReducer=  combineReducers({
     dataAddedToCart: operationOnCart,
     // cartAfterDeletingData : deleteFromCart
     buyProducts : buyProducts
+
+    
 })  
 
 export default rootReducer;

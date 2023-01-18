@@ -14,7 +14,7 @@ export default function ChangeCustomerPassword({
         
         delete data.confirmPassword;
 
-        console.log(data);
+        console.log(data);  
 
         securePost('/customers/auth/change-password',data)
         .then ((response)=>{console.log(response);})

@@ -28,7 +28,7 @@ const buyProductsPayload = {
 //     default:
 //       return state;
 //   }
-// };
+// };  
 
 export const operationOnCart = (state = cartArr, action) => {
 

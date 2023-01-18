@@ -15,7 +15,7 @@ export default function UpdateCompanyInfo({
   data,
   dummy,
   setDummy
-}) {
+}) {  
   // console.log("props : ", props);
   const { handleSubmit, register, reset } = useForm();
 

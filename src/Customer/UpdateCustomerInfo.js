@@ -112,7 +112,7 @@ export default function UpdateCustomerInfo() {
           style={{ backgroundColor: "#dbdbdb" }}
         >
           <form className="h-100" onSubmit={handleSubmit(addUpdatedAdd)}>
-            <div className="d-flex flex-column justify-content-evenly h-100">
+            <div className="d-flex flex-column justify-content-evenly h-100 gap-1">
               {/* <p>update new address</p> */}
               <input
                 className="w-100 border-0 border-bottom"
@@ -150,13 +150,18 @@ export default function UpdateCustomerInfo() {
               <div className="d-flex justify-content-evenly">
                 <Button
                   variant="outline-secondary"
+                  className="btn btn-sm"
                   onClick={() => {
                     setUpdateAddress({ index: -1, data: element });
                   }}
                 >
                   cancel
                 </Button>
-                <Button variant="outline-primary" type="submit">
+                <Button
+                  className="btn btn-sm"
+                  variant="outline-primary "
+                  type="submit"
+                >
                   save
                 </Button>
               </div>
@@ -187,7 +192,7 @@ export default function UpdateCustomerInfo() {
 
           <div className="d-flex justify-content-evenly">
             <Button
-              className="border"
+              className="border btn-sm btn"
               variant="outline-secondary"
               onClick={() => {
                 setUpdateAddress({ index: Number(index), data: element });
@@ -196,7 +201,7 @@ export default function UpdateCustomerInfo() {
               update
             </Button>
 
-            <Button variant="danger" onClick={() => removeAdd(element._id)}>
+            <Button className=" btn-sm btn" variant="danger" onClick={() => removeAdd(element._id)}>
               Remove
             </Button>
           </div>

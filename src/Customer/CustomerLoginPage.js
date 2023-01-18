@@ -19,7 +19,7 @@ export default function CustomerLoginPage({setLoggedInUser}) {
 
       setLoggedInUser(response.data)
 
-
+   
     });
   };
 

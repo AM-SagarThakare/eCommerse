@@ -17,7 +17,7 @@ export default function CustomerConfirmOrder() {
 
   const onSubmit = (data) => {
     console.log(data);
-
+     
     axios
       .put(
         `https://shop-api.ngminds.com/shop/orders/confirm/${location.state.orderId}`,

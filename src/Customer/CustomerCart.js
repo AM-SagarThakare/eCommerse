@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import getToken from "../HttpService/LocalStorageService";
 import Swal from "sweetalert2";
 import CustomerLoginModal from "./CustomerLoginModal";
+import emptyCartVideo from "../components/images/emptyCart.mp4";
 
 export default function CustomerCart() {
   // const cartArr = useSelector((state) =>{ console.log(state);});
@@ -45,13 +46,13 @@ export default function CustomerCart() {
     payload.deliveryFee = 0;
     payload.total = amount;
 
-    console.log(payload)
+    console.log(payload);
 
     dispatch(buyProducts(payload));
-    navigate("/order",{
-      state : {
-        payload : payload
-      }
+    navigate("/order", {
+      state: {
+        payload: payload,
+      },
     });
   };
 
@@ -88,36 +89,41 @@ export default function CustomerCart() {
                   })}
                 </Carousel>
               </div>
-
+ 
               {/* cart description */}
               <div className="p-2 d-flex flex-column justify-content-between w-100  border">
                 <h5>
                   <u>{element.name}</u>
                 </h5>
-                <p style={{ lineClamp:'1'}}>
+                <p style={{ lineClamp: "1" }}>
                   <b>Description : </b>
                   {element.description}
                 </p>
-
-                <div className="d-flex w-100  align-items-center justify-content-start gap-2">
+                {/* inc/dec button and remove button  */}
+                <div className="d-flex w-0 align-items-center justify-content-evenly gap-2">
                   {/* add quantity butoons */}
-                  <Button
-                    className="btn btn-sm"
-                    onClick={() => {
-                      dispatch(decNumber(element._id));
-                    }}
-                  >
-                    -
-                  </Button>
-                  <p className="m-0">{element.quantity} </p>
+                  <div className="d-flex gap-2">
 
-                  {/* decrease quantity butoons */}
-                  <Button
-                    className="btn btn-sm"
-                    onClick={() => dispatch(incNumber(element))}
-                  >
-                    {"  "}+{"  "}
-                  </Button>
+                    <button
+                    // type="button"
+                      className="btn btn-sm btn-outline-primary"
+                      onClick={() => {
+                        dispatch(decNumber(element._id));
+                      }}
+                    >
+                      -
+                    </button>
+
+                    <p className="m-0">{element.quantity} </p>
+
+                    {/* decrease quantity butoons */}
+                    <button
+                      className="btn btn-sm btn-outline-primary"
+                      onClick={() => dispatch(incNumber(element))}
+                    >
+                      {"  "}+{"  "}
+                    </button>
+                  </div>
 
                   {/* delete  from cartbutton */}
                   <Button
@@ -198,13 +204,16 @@ export default function CustomerCart() {
 
       {/* customer cart */}
       {cartArr.length === 0 ? (
-        <div >
+        <div className="d-flex flex-column justify-content-center align-items-center">
           <h2 className="text-center p-3">cart is empty now</h2>{" "}
+          <video preload="auto" autoplay="" loop muted className="w-25">
+            <source src={emptyCartVideo} />
+          </video>
         </div>
       ) : (
-        <div className="border border-primary">
+        <div className="">
           <div className="d-flex justify-content-center py-3">
-            {cartArr.length === 0 ? <h3>Cart is Empty</h3> : ""}
+            {/*  */}
           </div>
 
           <div className="d-flex ">

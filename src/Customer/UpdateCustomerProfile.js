@@ -22,6 +22,8 @@ export default function UpdateCustomerProfile({
     });
   };
 
+
+  
   return (
     <div>
       <Modal show={true} onHide={() => setUpdateProfile(false)}>

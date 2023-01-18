@@ -15,7 +15,7 @@ export default function OrderDetailsModal({
       setOrderData(response.data);
     });
   }, []);
-
+   
   console.log(orderData);
 
   const productDetails =

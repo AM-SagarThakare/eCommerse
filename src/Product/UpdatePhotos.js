@@ -16,7 +16,7 @@ export default function UpdatePhotos({
   const [deletedImg, setDeletedImg] = useState([]);
 
   var newImageArr = [];
-
+  
   const deletePrevImg = (images) => {
     console.log("images public id : ", images.public_id);
     setDeletedImg((prev)=>[...prev , images.public_id])

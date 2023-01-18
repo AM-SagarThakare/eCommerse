@@ -16,7 +16,7 @@ export default function CustomerOrderHistory() {
   const [paginationObj, setPaginationObj] = useState({
     sortBy: "",
     limit: 10,
-    pageNo: 5,
+    pageNo: 1,
     searchText: "",
   });
   const [totalPages, setTotalPages] = useState();
@@ -44,7 +44,6 @@ export default function CustomerOrderHistory() {
       console.log(response);
     });
   }
-  // console.log(orderList);
 
   return (
     <div className=" d-flex flex-column ">

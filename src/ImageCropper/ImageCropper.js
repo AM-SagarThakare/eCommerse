@@ -68,12 +68,6 @@ export default function ImageCropper({ setBlob }) {
           {
             <ReactCrop
               crop={crop} // You must ensure the crop is in bounds and correct to the aspect ratio if manually setting.
-              // onImageLoaded={(x) => {        // i think there is no property like onImageLoaded
-              //   console.log(x);
-              //   setImage(x);
-              //   // getCroppedImg(x);
-              // }}
-
               onComplete={(e) => {
                 //A callback which happens after a resize, drag, or nudge. Passes the current crop state object.
                 console.log(e); // we get in this event : height unit width x y
@@ -95,13 +89,16 @@ export default function ImageCropper({ setBlob }) {
               />
             </ReactCrop>
           }
-
         </div>
       )}
 
       {result && (
-        <div className="d-flex justify-content-center" >
-          <img className="border border-dark p-1" src={result} alt="cropeed img" />
+        <div className="d-flex justify-content-center">
+          <img
+            className="border border-dark p-1"
+            src={result}
+            alt="cropeed img"
+          />
         </div>
       )}
     </div>

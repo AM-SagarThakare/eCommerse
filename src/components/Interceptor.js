@@ -6,7 +6,7 @@ import getToken from "../HttpService/LocalStorageService";
 export const axiosInstance = axios.create({
     baseURL: 'https://shop-api.ngminds.com/'
 });
-
+ 
 //request interceptor
 axiosInstance.interceptors.request.use( (config)=> {
 

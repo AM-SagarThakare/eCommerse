@@ -41,9 +41,7 @@ export default function Registration() {
       // toast.error(errroOfResponse?.response?.data?.message);
     })
   }
-
-
-
+  
   // errorneous output styling--------------------------------------
   const error = {
     color: "red",

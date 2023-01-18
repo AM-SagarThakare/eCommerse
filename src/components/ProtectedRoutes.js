@@ -14,7 +14,7 @@ export function CheckActiveToken (){
     return(
         localStorage.getItem("activeToken") ?  <Navigate to="/seller/myProfile" />  : <Outlet/>
     )
-}
+} 
 
 export function CheckCustomerActiveToken(){
     return (
