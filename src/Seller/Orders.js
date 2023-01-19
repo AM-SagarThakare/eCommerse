@@ -1,26 +1,43 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { Accordion, Button, Table } from "react-bootstrap";
+import { Accordion, Button, Pagination, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { secureGet } from "../HttpService/APIService";
+import { TbCurrencyRupee } from "react-icons/tb";
+import { patch } from "../HttpService/APIService";
 
 export default function Orders() {
   const [orders, setOrders] = useState([]);
   const [productList, setProductList] = useState([]);
   const navigate = useNavigate();
+  const [paginationObj, setPaginationObj] = useState({
+    limit: 5,
+    pageNo: 1,
+  });
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    secureGet("/orders").then((response) => {
-    //   console.log(response);
-    //   console.log(response.data.results);
-      setOrders(response.data.results);
+    if (
+      paginationObj?.limit > 0 &&
+      paginationObj?.limit !== "" &&
+      paginationObj?.pageNo <= totalPages &&
+      paginationObj?.pageNo !== ""
+    ) {
+      secureGet(
+        `/orders?page=${paginationObj.pageNo}&limit=${paginationObj.limit}`
+      ).then((response) => {
+        //   console.log(response);
+        console.log(response);
+        setOrders(response.data.results);
+        setTotalPages(response.data.totalPages);
 
-      //   setProductList(response.data.results.items)
-    });
+        //   setProductList(response.data.results.items)
+      });
+    }
 
     console.log(productList);
-  }, []);
+  }, [paginationObj]);
 
   const customerProductList =
     productList &&
@@ -36,19 +53,45 @@ export default function Orders() {
       );
     });
 
+  function cancelOrder(productId) {
+    patch(`/orders/cancel/${productId}`).then((response) => {
+      console.log(response);
+    });
+  }
+
+  function dispatchOrder(productId) {
+    patch(`/orders/dispatch/${productId}`).then((response) => {
+      console.log(response);
+    });
+  }
+
+  function deliverOrder() {
+    patch(`/orders/deliver/${productId}`).then((response) => {
+      console.log(response);
+    });
+  }
+
   const ordersList =
     orders &&
     orders.map((element, index) => {
-      // {setProductList(element.items)}
       return (
-        <div key={index}>
+        <div key={index} className="w-75 mx-auto">
           <Accordion.Item eventKey={index}>
             <Accordion.Header onClick={() => setProductList(element.items)}>
               <div className="d-flex justify-content-between w-100 gap-2 px-2">
-                <span>{index + 1}.</span>
-                <span>order id :{element._id}</span>
+                <div>
+                  <span>
+                    <b>
+                      {index + 1} {".  "}
+                    </b>
+                  </span>
+                  <span>order id :{element._id}</span>
+                </div>
                 <span>
-                  price : <b>{element.total}</b>
+                  order status :{" "}
+                  {element.paymentStatus === "Refunded"
+                    ? "Refunded"
+                    : element.status}
                 </span>
               </div>
             </Accordion.Header>
@@ -70,58 +113,72 @@ export default function Orders() {
 
                   <div className=" p-2 w-100 border ">
                     <h6>products</h6>
-                    {/* <table className="w-100">
-                      <tr>
-                        <th className="border border-dark">name</th>
-                        <th className="border border-dark">qty</th>
-                        <th className="border border-dark">price</th>
-                        <th className="border border-dark">subTotal</th>
-                      </tr>
-                    </table> */}
 
                     <Table striped="columns">
                       <thead>
                         <tr>
                           <th>#</th>
                           <th>Product Name</th>
-                          {/* <th>qty</th>
-                          <th>subTotal</th> */}
                         </tr>
                       </thead>
                       <tbody>{customerProductList}</tbody>
                     </Table>
+                    <div className="d-flex justify-content-end align-items-center">
+                      price :<TbCurrencyRupee size={20} />{" "}
+                      <b>{element.total}</b>
+                    </div>
                   </div>
                 </div>
 
                 <div className="d-flex flex-column gap-2  justify-content-end">
-                  <Button
-                    className="btn btn-sm "
-                    variant="outline-info"
-                    onClick={() => {
-                      navigate("/seller/product/orderDetails",{state : {
-                        orderId : element._id
-                      }});
-                    }}
-                  >
-                    Details{" "}
-                  </Button>
-
-                  {element.status === "Confirmed" ? (
-                    <Button className="btn btn-sm " variant="outline-success">
+                  {/* {element.status !=== "Cancelled" ?   */}
+                  {element.status === "Cancelled" ? (
+                    ""
+                  ) : element.status === "Confirmed" ? (
+                    <Button
+                      className="btn btn-sm "
+                      variant="outline-success"
+                      onClick={() => {
+                        dispatchOrder(element._id);
+                      }}
+                    >
                       Dispatch{" "}
                     </Button>
+                  ) : element.status === "Delivered" ? (
+                    ""
                   ) : (
-                    <Button className="btn btn-sm" variant="outline-info">
+                    <Button className="btn btn-sm" variant="outline-success">
                       Deliver{" "}
                     </Button>
                   )}
 
                   <Button
-                    className="btn btn-sm w-100"
-                    variant="outline-warning"
+                    className="btn btn-sm "
+                    variant="outline-info"
+                    onClick={() => {
+                      navigate("/seller/product/orderDetails", {
+                        state: {
+                          orderId: element._id,
+                        },
+                      });
+                    }}
                   >
-                    Cancel Order
+                    Details{" "}
                   </Button>
+
+                  {element.status !== "Cancelled" ? (
+                    <Button
+                      className="btn btn-sm w-100"
+                      variant="outline-warning"
+                      onClick={() => {
+                        cancelOrder(element._id);
+                      }}
+                    >
+                      Cancel Order
+                    </Button>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
             </Accordion.Body>
@@ -130,40 +187,95 @@ export default function Orders() {
       );
     });
   return (
-    <div>
+    <div className="vh-100" style={{ background: "#dedede" }}>
       <Navbar />
 
       {/* Accordian */}
+      {/* ================= search sort by, limit, page no*/}
+      <div
+        className="w-100 d-flex justify-content-between p-2 align-items-center"
+        style={{ background: "#dedede" }}
+      >
+        <div>
+          <p>
+            page <b>{paginationObj?.pageNo}</b> out of <b>{totalPages}</b>
+          </p>
+        </div>
 
-      <Accordion>
-        {ordersList}
+        <div className="d-flex justify-content-end align-items-center w-25">
+          {/*==== limit of products */}
+          <div>
+            <span> limit </span>
+            <input
+              className="bg-transparent"
+              style={{ width: "20%" }}
+              placeholder="limit"
+              type="number"
+              defaultValue={paginationObj.limit}
+              onChange={(event) => {
+                setPaginationObj((prev) => {
+                  return {
+                    ...prev,
+                    limit: event.target.value,
+                  };
+                });
+              }}
+            />
+          </div>
 
-        {/* <Accordion.Item eventKey="0">
-          <Accordion.Header>Accordion Item #1</Accordion.Header>
-          <Accordion.Body>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-          </Accordion.Body>
-        </Accordion.Item>
+          {/*  page no */}
+          <div className="">
+            <div className="d-flex justify-content-start " >
+              <span className=" ">page no </span>
+            </div>
+          <input
+            className="bg-transparent w-50 "
+            // style={{ width: "20%" }}
+            placeholder="enter page no"
+            defaultValue={paginationObj.pageNo}
+            onChange={(event) => {
+              setPaginationObj((prev) => {
+                return { ...prev, pageNo: event.target.value };
+              });
+              console.log(event.log.value);
+            }}
+          />
+          </div>
 
-        <Accordion.Item eventKey="1">
-          <Accordion.Header>Accordion Item #2</Accordion.Header>
-          <Accordion.Body>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-          </Accordion.Body>
-        </Accordion.Item> */}
-      </Accordion>
+        </div>
+      </div>
+
+      <Accordion>{ordersList}</Accordion>
+
+      {/* pagination  */}
+      <div className=" pt-3 d-flex justify-content-center">
+        <Pagination className="">
+          {paginationObj.pageNo === 1 ? (
+            ""
+          ) : (
+            <Pagination.Prev
+              onClick={() => {
+                setPaginationObj((prev) => {
+                  return { ...prev, pageNo: Number(paginationObj.pageNo) - 1 };
+                });
+              }}
+            />
+          )}
+          <Pagination.Item active>{paginationObj?.pageNo}</Pagination.Item>
+
+          {paginationObj.pageNo === totalPages ? (
+            ""
+          ) : (
+            <Pagination.Next
+              onClick={() => {
+                setPaginationObj((prev) => {
+                  return { ...prev, pageNo: Number(paginationObj.pageNo) + 1 };
+                });
+              }}
+            />
+          )}
+        </Pagination>
+      </div>
     </div>
   );
 }

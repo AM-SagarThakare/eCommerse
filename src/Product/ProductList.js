@@ -73,10 +73,7 @@ export default function ProductList() {
             <img
               src={currentProductList[index]?.images[0]?.url}
               alt="img problem"
-              // height="auto"
-              // width="200px"
-
-              // height="50%"
+ 
               width="50%"
             ></img>
           </div>
@@ -272,7 +269,7 @@ export default function ProductList() {
 
       {/*==================================================  list of Products */}
       <div
-        className="d-flex border border-danger justify-content-evenly "
+        className="d-flex border border-danger justify-content-evenly"
         style={{
           height: "100vh",
           overflow: "scroll",

@@ -1,12 +1,10 @@
 import React, { useCallback, useState } from "react";
-import { Button } from "react-bootstrap";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 
 export default function ImageCropper({ setBlob }) {
   const [src, setFile] = useState(null);
   const [dataUrl, setDataUrl] = useState("");
-  //   console.log(src);
   const handleFileChange = (event) => {
     const blob = URL.createObjectURL(event.target.files[0]);
 
@@ -76,7 +74,6 @@ export default function ImageCropper({ setBlob }) {
               }}
               onChange={(c) => {
                 //A callback which happens for every change of the crop (i.e. many times as you are dragging/resizing). Passes the current crop state object
-                // console.log(c);
                 setCrop(c);
               }}
             >

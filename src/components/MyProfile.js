@@ -4,7 +4,7 @@ import "./MyProfile.css";
 import emailLogo from "./images/gmailLogo.png";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import {securePost, secureGet } from "../HttpService/APIService";
+import { securePost, secureGet } from "../HttpService/APIService";
 
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -12,14 +12,16 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import ChangePassword from "../Seller/ChangePassword";
 
+import { AiOutlineShoppingCart, AiOutlineHistory } from "react-icons/ai";
+import { GoDatabase } from "react-icons/go";
+import { RiLockPasswordFill, RiLogoutBoxLine } from "react-icons/ri";
 // < --------------------------------------------------------------------------------------------- >
 
 export default function MyProfile() {
   const navigate = useNavigate();
   const [data, setData] = useState({}); // {name,compName}
   const [show, setShow] = useState(false);
-  const [dummy,  ] = useState(true);
-  // let isEmailVerified = 'false';
+  const [dummy] = useState(true);
 
   useEffect(() => {
     secureGet("/auth/self")
@@ -59,13 +61,12 @@ export default function MyProfile() {
     <div>
       {/* nav bar */}
 
-      <Navbar className="border bg-secondary "  expand="lg">
+      <Navbar className="border bg-dark px-3 dropstart" expand="lg">
         <Container className="container">
           <Navbar.Brand href="#home">Online shopping</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto ">
-
               {/* <NavDropdown title="settings" id="basic-nav-dropdown">
                 
                 <NavDropdown.Item href="#action/3.2">Another action{" "}</NavDropdown.Item>
@@ -81,59 +82,56 @@ export default function MyProfile() {
           </Navbar.Collapse>
         </Container>
 
+        <div className="d-flex align-items-center ">
+          <NavDropdown title="settings" id="basic-nav-dropdown">
+            <NavDropdown.Item
+              // href="#action/3.1"
+              onClick={() => {
+                setShow(true);
+              }}
+            >
+              <RiLockPasswordFill /> Change password
+            </NavDropdown.Item>
 
-        <div className="d-flex align-items-center " style={{backgroundColor:'#a2a2a2'}}>
+            <NavDropdown.Item
+              onClick={() => {
+                navigate("/seller/product/orders");
+              }}
+            >
+              <AiOutlineHistory /> Orders history
+            </NavDropdown.Item>
+            <NavDropdown.Item
+              onClick={() => {
+                navigate("/seller/product/list");
+              }}
+            >
+              <AiOutlineShoppingCart /> My Products
+            </NavDropdown.Item>
+            <NavDropdown.Item
+              onClick={() => {
+                navigate("/seller/companyData");
+              }}
+            >
+              <GoDatabase /> Company data
+            </NavDropdown.Item>
+            <NavDropdown.Divider />
 
-        {/* <TiThListOutline 
-          size={35}
-          // onClick={}
-        /> */}
-
-
-          {/* <button style={{border:'none'}} onClick={ ()=>{navigate("/product/list")} } >Products</button> */}
-          {/* <NavLink to="/product/list">Products</NavLink> */}
-
-          <Link to='/seller/product/list'>product</Link>
-          
-          <NavDropdown title="settings"  id="basic-nav-dropdown" style={{backgroundColor:'#a2a2a2'}}>
-          <NavDropdown.Item
-                    href="#action/3.1"
-                    onClick={() => {
-                      setShow(true);
-                    }}
-                  >
-                    change password
-                  </NavDropdown.Item>
-
-                  <NavDropdown.Item
-                  onClick={()=>{
-                    navigate('/seller/product/orders')
-                  }}
-                  >
-                   orders
-                  </NavDropdown.Item>
-                  <NavDropdown.Divider />
-              
-                  <NavDropdown.Item href="#action/3.4" onClick={logOut} className="bg-danger"> Log Out </NavDropdown.Item>
-
-
+            <NavDropdown.Item
+              href="#action/3.4"
+              onClick={logOut}
+              className="bg-danger"
+            >
+              <RiLogoutBoxLine /> Log Out{" "}
+            </NavDropdown.Item>
           </NavDropdown>
-          {/* <a href='/'>CompanyData</a> */}
-          <Link to="/seller/companyData " style={{backgroundColor:'#a2a2a2'}}> company data </Link>
         </div>
       </Navbar>
 
       <ChangePassword show={show} setShow={setShow} />
 
-
-
-
       {/* card  */}
       <div className="mainDiv d-flex justify-content-center align-items-center">
-        <div
-          className="card mb-3 "
-          style={{ maxWidth: "500px" }}
-        >
+        <div className="card mb-3 " style={{ maxWidth: "500px" }}>
           <div className="row g-0 p-2 border rounded">
             <div className="col-md-4  p-1">
               <img src={logo} className="img-fluid  " alt="..." />
@@ -147,13 +145,6 @@ export default function MyProfile() {
                   <img className="mailLogo" src={emailLogo} alt=""></img>
                   {data.userEmail}
                 </p>
-                {/* </h6> */}
-                {/* <p className="card-compName">Comp name : {data.userEmail}</p> */}
-                {/* <p></p> */}
-                {/* <div className="border d-flex justify-content-evenly"> */}
-                {/* <button className='variant="info"'> <p>{data?.isEmailVerified ? 'true' : 'false'}</p> </button> */}
-
-                {/* <Button variant="info"><p>{data?.isEmailVerified ? 'true' : 'false'}</p></Button>{' '} */}
 
                 {data.isEmailVerified ? (
                   <div className="d-flex justify-content-evenly">
@@ -185,15 +176,6 @@ export default function MyProfile() {
                 </p>
               </div>
             </div>
-          </div>
-
-          <div className="d-flex buttonDiv justify-content-around">
-            {/* <button
-              type="button"
-              className="btn btn-danger d-flex justify-content-center mt-5"
-            >
-              Logout
-            </button> */}
           </div>
         </div>
       </div>
