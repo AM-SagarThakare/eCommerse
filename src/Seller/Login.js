@@ -3,13 +3,13 @@ import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import logInPhoto from "./images/logInAnimatedPhoto.png";
+import logInPhoto from "../components/images/logInAnimatedPhoto.png";
 import toast from "react-hot-toast";
 import {securePost} from "../HttpService/APIService";
 import { setToken } from "../HttpService/LocalStorageService";
-import ForgetPasswordModal from "../Seller/ForgetPasswordModal";
+import ForgetPasswordModal from "./ForgetPasswordModal";
 
-import LoginViaGoogle from "../Seller/LoginViaGoogle";
+import LoginViaGoogle from "./LoginViaGoogle";
 
 export default function Login() {
   const navigate = useNavigate();

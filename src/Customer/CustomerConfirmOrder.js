@@ -31,7 +31,7 @@ export default function CustomerConfirmOrder() {
       .then((response) => {
         console.log(response);
         toast.success(response.data.message);
-        navigate("/cart");
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);

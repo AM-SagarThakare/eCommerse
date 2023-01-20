@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Registration.css";
-import regImage from "./images/register.png";
+import regImage from "../components/images/register.png";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import toast from "react-hot-toast";

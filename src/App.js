@@ -1,15 +1,14 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Registration from "./components/Registration";
-import Login from "./components/Login";
-import MyProfile from "./components/MyProfile";
+import Registration from "./Seller/Registration";
+import Login from "./Seller/Login";
+import MyProfile from "./Seller/MyProfile";
 import ProtectedRoutes, {
   CheckActiveToken,
   CheckCustomerActiveToken,
   ProtectedLogin,
 } from "./components/ProtectedRoutes";
-// import loginpage from "./components/reactBootstrap/loginpage";
 import { Toaster } from "react-hot-toast";
-import CompanyData from "./components/CompanyData";
+import CompanyData from './Seller/CompanyData'
 import ResetPassword from "./Seller/ResetPassword";
 import VerifyMail from "./Seller/VerifyMail";
 import ProductList from "./Product/ProductList";

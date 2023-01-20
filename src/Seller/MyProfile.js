@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import logo from "./images/coder.png";
+import logo from "../components/images/coder.png";
 import "./MyProfile.css";
-import emailLogo from "./images/gmailLogo.png";
+import emailLogo from "../components/images/gmailLogo.png";
+// import emailLogo from "../con";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { securePost, secureGet } from "../HttpService/APIService";
@@ -10,7 +11,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import ChangePassword from "../Seller/ChangePassword";
+import ChangePassword from "./ChangePassword";
 
 import { AiOutlineShoppingCart, AiOutlineHistory } from "react-icons/ai";
 import { GoDatabase } from "react-icons/go";

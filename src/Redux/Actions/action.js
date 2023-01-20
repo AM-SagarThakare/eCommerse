@@ -37,7 +37,6 @@ export const buyProducts = (product)=>{
 }
 export const makeCartEmpty =  ()=>
 {
-  console.log('in ,,,,');
   return {
     type : 'makeCartEmpty'
   }

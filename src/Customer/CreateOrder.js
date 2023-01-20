@@ -65,8 +65,7 @@ export default function CreateOrder() {
     secureGet("/customers/address").then((response) => {
       setAllAddresses(response.data);
     });
-  dispatch(buyProducts(navigateProps.payload))
-
+    dispatch(buyProducts(navigateProps.payload));
   }, []);
 
   // get all addresses from api
@@ -129,7 +128,6 @@ export default function CreateOrder() {
     var data = {};
     // console.log(storeData.buyProducts.items );
 
-    // data.items = [storeData.buyProducts.items];
     data.items = storeData.buyProducts.items;
     data.deliveryFee = storeData.buyProducts.deliveryFee;
     data.total = storeData.buyProducts.total;
@@ -139,7 +137,10 @@ export default function CreateOrder() {
     securePost("/shop/orders", data).then((response) => {
       console.log(response);
 
-      dispatch(makeCartEmpty());
+      if (data.items.length !== 1) {
+        dispatch(makeCartEmpty());
+        console.log('inn dispatch')
+      }
 
       navigate("/confirmOrder", {
         state: { orderId: response.data.order._id },
